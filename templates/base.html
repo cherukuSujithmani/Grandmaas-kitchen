@@ -1,0 +1,76 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My eCommerce Site{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block css %}
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+    <script src="{% static 'js/scripts.js' %}" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'logo2.webp' %}" alt="Logo">
+            <!-- <span>Grandmas Kitchen</span> -->
+            <a href="{% url 'app1:home1' %}">Grandmas Kitchen</a>
+        </div>
+        <!-- In base.html or navbar.html -->
+        <form method="get" action="{% url 'app1:search_products' %}" class="search-form">
+            <input type="text" name="q" placeholder="Search for products..." required>
+            <button type="submit">Search</button>
+        </form>
+        <button class="menu-toggle">☰</button>
+        <ul class="nav-links">
+            <li><a href="{% url 'app1:home1' %}">Home</a></li>
+            
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'app1:cart' %}" class="cart-button">
+                    🛒 Cart (<span id="cart-count">{{ request.session.cart|length }}</span>)
+                </a></li>
+
+                <!-- Profile Dropdown -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="profileDropdown">
+                        {% if request.user.profile.profile_image %}
+                            <img src="{{ request.user.profile.profile_image.url }}" alt="User" class="profile-icon">
+                        {% else %}
+                            <img src="{% static 'images/user-icon.png' %}" alt="User" class="profile-icon">
+                        {% endif %}
+                        {{ request.user.username }}
+                    </a>
+                    <ul class="dropdown-menu" id="profileMenu">
+                        <li><a href="{% url 'app1:profile' %}" class="dropdown-item">Profile</a></li>
+                        <li><a href="{% url 'app1:order_history' %}" class="dropdown-item">Orders</a></li>
+                        <li><a href="{% url 'app1:wishlist' %}" class="dropdown-item">Wishlist</a></li>
+                        <li><a href="{% url 'app1:logout' %}" class="dropdown-item">Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{% url 'app1:login' %}">Login</a></li>
+                <li><a href="{% url 'app1:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 My eCommerce Site. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

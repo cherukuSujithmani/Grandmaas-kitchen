@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/order_history.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-history-container">
+    <h2>🛒 My Order History</h2>
+
+    {% if orders %}
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.created_at|date:"M d, Y" }}</td>
+                    <td>₹{{ order.total_price }}</td>
+                    <td><span class="status {{ order.status|lower }}">{{ order.status }}</span></td>
+                    <td><a href="{% url 'app1:order_confirmation' order.id %}" class="view-details">🔍 View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-orders">😞 No past orders found.</p>
+    {% endif %}
+</div>
+
+<script src="{% static 'js/order_history.js' %}"></script>
+{% endblock %}

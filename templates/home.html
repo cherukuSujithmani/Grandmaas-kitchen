@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Food Store</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo"><img src="{% static 'logo2.webp' %}" alt=""></div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Contact</a></li>
+
+            {% if user.is_authenticated %}
+                <li class="profile-menu">
+                    <div class="profile-dropdown">
+                        <span class="profile-name">👤 {{ user.username }}</span>
+                        <ul class="dropdown-content">
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">My Orders</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            {% else %}
+                <li><a href="{% url 'app1:login' %}">Login</a></li>
+                <li><a href="{% url 'app1:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Welcome to Our Online Food Store</h1>
+        <p>Delicious Pickles, Sweets, and Snacks delivered to your door!</p>
+    </header>
+
+    <!-- Product Cards -->
+    <section class="product-section">
+        <div class="product-card">
+            <img src="{% static 'pickels_logo.webp' %}" alt="Pickles">
+            <h3>Pickles</h3>
+            <p>Homemade, fresh, and full of flavor!</p>
+            <a href="{% url 'app1:pickles' %}" class="btn">Shop Now</a>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'sweets_logo.webp' %}" alt="Sweets">
+            <h3>Sweets</h3>
+            <p>Traditional sweets made with love.</p>
+            <a href="{% url 'app1:sweets' %}" class="btn">Shop Now</a>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'snacks_logo.png' %}" alt="Snacks">
+            <h3>Snacks</h3>
+            <p>Crunchy, tasty, and perfect for any time.</p>
+            <a href="{% url 'app1:snacks' %}" class="btn">Shop Now</a>
+        </div>
+    </section>
+    
+
+    <!-- Footer -->
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>About Us</h3>
+            <p>We deliver the best homemade pickles, sweets, and snacks. Fresh and tasty, straight to your door!</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <p>Email: support@foodstore.com</p>
+            <p>Phone: +91 98765 43210</p>
+            <p>Location: Chennai, India</p>
+        </div>
+
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111392.png" alt="Facebook"></a>
+                <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111368.png" alt="Instagram"></a>
+                <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111703.png" alt="Twitter"></a>
+                <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111425.png" alt="YouTube"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 Food Store | All Rights Reserved.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>
+
+
+

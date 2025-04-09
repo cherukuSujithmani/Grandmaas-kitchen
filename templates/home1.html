@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Food Store</title>
+    <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+    <script src="{%  static 'js/script.js' %}"></script>
+</head>
+<body>
+     <!-- Intro Animation -->
+     <div id="intro-animation">
+        <div class="logo-container">
+            <img src="{% static 'logo.png' %}" alt="Logo" class="intro-logo">
+            <h1 class="intro-title">Grandmaa's Kitch</h1>
+        </div>
+    </div>
+     <!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{% static 'logo2.webp' %}" alt="Logo">
+        <span>Grandmas Kitchen</span>
+    </div>
+    <button class="menu-toggle">☰</button>
+    <ul class="nav-links">
+        <li><a href="{% url 'app1:home1' %}">Home</a></li>
+        
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'app1:cart' %}" class="cart-button">
+                🛒 Cart (<span id="cart-count">{{ request.session.cart|length }}</span>)
+            </a></li>
+
+            <!-- Profile Dropdown -->
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" id="profileDropdown">
+                    {% if request.user.profile.profile_image %}
+                        <img src="{{ request.user.profile.profile_image.url }}" alt="User" class="profile-icon">
+                    {% else %}
+                        <img src="{% static 'images/user-icon.png' %}" alt="User" class="profile-icon">
+                    {% endif %}
+                    {{ request.user.username }}
+                </a>
+                <ul class="dropdown-menu" id="profileMenu">
+                    <li><a href="{% url 'app1:profile' %}" class="dropdown-item">Profile</a></li>
+                    <li><a href="{% url 'app1:order_history' %}" class="dropdown-item">Orders</a></li>
+                    <li><a href="{% url 'app1:wishlist' %}" class="dropdown-item">Wishlist</a></li>
+                    <li><a href="{% url 'app1:logout' %}" class="dropdown-item">Logout</a></li>
+                </ul>
+            </li>
+        {% else %}
+            <li><a href="{% url 'app1:login' %}">Login</a></li>
+            <li><a href="{% url 'app1:register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Welcome to Our Online Food Store</h1><br><br><br><br><br><br><br><br><br><br><br><br>
+        <p>Delicious Pickles, Sweets, and Snacks delivered to your door!</p>
+    </header>
+
+    <!-- Product Cards -->
+    <section class="product-section">
+        <div class="product-card">
+            <img src="{% static 'pickels_logo.webp' %}" alt="Pickles">
+            <h3>Pickles</h3>
+            <p>Homemade, fresh, and full of flavor!</p>
+            <a href="{% url 'app1:pickles' %}" class="btn">Shop Now</a>
+        </div>
+        <div class="product-card">
+            <img src="{% static 'sweets_logo.webp' %}" alt="Sweets">
+            <h3>Sweets</h3>
+            <p>Traditional sweets made with love.</p>
+            <a href="{% url 'app1:sweets' %}" class="btn">Shop Now</a>
+        </div>
+        <div class="product-card">
+            <img src="{% static 'snacks_logo.png' %}" alt="Snacks">
+            <h3>Snacks</h3>
+            <p>Crunchy, tasty, and perfect for any time.</p>
+            <a href="{% url 'app1:snacks' %}" class="btn">Shop Now</a>
+        </div>
+    </section>
+    <div class="container1" id="food-container">
+        <h1>Better food for more people</h1>
+        <p>For over a decade, we’ve enabled our customers to discover new tastes, delivered right to their doorstep</p>
+        <img src="{% static 'Jantikalu.png' %}" alt="Burger" class="food-image Jantikalu">
+        <img src="{% static 'gilabjam.png' %}" alt="Pizza" class="food-image pizza">
+        <img src="{% static 'ariselu.png' %}" alt="Dumplings" class="food-image ariselu">
+    </div>
+    <section class="app-preview">
+        <div class="container">
+            <h1 class="title">What's waiting for you on our app?</h1>
+            <p class="subtitle">Our store is packed with features that enable you to experience food shopping like never before.</p>
+            
+            <div id="phone-container" class="phone-container">
+                <img src="static/images/phone-mockup.png" alt="App Preview" class="phone">
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card"><img src="static/images/spicy-pickle.png" alt="Spicy Pickles"><p>Spicy Pickles</p></div>
+                <div class="feature-card"><img src="static/images/sweet-pickle.png" alt="Sweet Pickles"><p>Sweet Pickles</p></div>
+                <div class="feature-card"><img src="static/images/offers.png" alt="Special Offers"><p>Special Offers</p></div>
+                <div class="feature-card"><img src="static/images/homemade.png" alt="Homemade Delights"><p>Homemade Delights</p></div>
+                <div class="feature-card"><img src="static/images/gift.png" alt="Gift Hampers"><p>Gift Hampers</p></div>
+                <div class="feature-card"><img src="static/images/fast-delivery.png" alt="Quick Delivery"><p>Quick Delivery</p></div>
+            </div>
+            
+            <button class="order-btn">Order Now</button>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>We deliver the best homemade pickles, sweets, and snacks. Fresh and tasty, straight to your door!</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="{% url 'app1:about' %}">About Us</a></li>
+                    <li><a href="{% url 'app1:contactus' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@foodstore.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>Location: Chennai, India</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111392.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111368.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111703.png" alt="Twitter"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/2111/2111425.png" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Food Store | All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

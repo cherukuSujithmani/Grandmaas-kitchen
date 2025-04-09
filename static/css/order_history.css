@@ -1,0 +1,92 @@
+/* Order History Page Styles */
+.order-history-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Heading */
+.order-history-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Order Table */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.order-table th, .order-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.order-table th {
+    background-color: #f8f8f8;
+    font-size: 16px;
+}
+
+/* Order Status Styling */
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.status.pending {
+    color: #e67e22;
+    background: #fbeee6;
+}
+
+.status.completed {
+    color: #27ae60;
+    background: #eafaf1;
+}
+
+.status.cancelled {
+    color: #c0392b;
+    background: #fdecea;
+}
+
+/* View Details Button */
+.view-details {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.view-details:hover {
+    background: #2980b9;
+}
+
+/* No Orders Message */
+.no-orders {
+    font-size: 18px;
+    color: #777;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .order-table th, .order-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .order-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

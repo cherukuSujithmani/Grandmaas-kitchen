@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/snacks.css' %}">
+{% endblock %}
+{% block content %}
+<h2 class="section-title">Snacks</h2>
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">Price: ₹{{ product.price }}</p>
+        <form action="{% url 'app1:add_to_cart' product.id %}" method="post" class="cart-form">
+            {% csrf_token %}
+            <button type="submit" class="add-to-cart">Add to Cart</button><br><br>
+            <button class="wishlist-btn" data-product-id="{{ product.id }}">Add to Wishlist ❤️</button>
+        </form>
+        
+    </div>
+    {% endfor %}
+</div>
+<div id="cart-popup" class="cart-popup hidden">
+    <p>Item added to cart!</p>
+</div>
+<div id="wishlist-popup" class="wishlist-popup">Item added to wishlist! ❤️</div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/snacks.js' %}"></script>
+{% endblock %}

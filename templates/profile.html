@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-header">
+    <!-- Background Image -->
+    <div class="header-bg">
+        <img src="{% static 'profilebg.jpg' %}" alt="Header Background">
+    </div>
+
+    <!-- Overlay Content -->
+    <div class="header-content">
+        <!-- Profile Photo + Upload -->
+        <div class="profile-photo">
+            <div class="image-wrapper">
+                {% if request.user.profile.profile_image %}
+                    <img src="{{ request.user.profile.profile_image.url }}" alt="Profile Photo">
+                {% else %}
+                    <img src="{% static 'default-profile.png' %}" alt="Default Photo">
+                {% endif %}
+                <form method="post" enctype="multipart/form-data" action="{% url 'app1:update_profile_photo' %}">
+                    {% csrf_token %}
+                    <label for="file-upload" class="upload-icon">
+                        <i class="fa fa-pencil"></i>
+                        <input id="file-upload" type="file" name="profile_image" accept="image/*" onchange="this.form.submit()" required>
+                    </label>
+                    
+                </form>
+            </div>
+        </div>        
+        <!-- User Info -->
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+
+        <!-- Edit Button -->
+        <div class="edit-profile-wrapper">
+            <button class="edit-profile-btn" onclick="showSection('edit-profile')">EDIT PROFILE</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="profile-header">
+    <div class="profile-info">
+        <h2>{{ user.username }}</h2>
+        <p>{{ user.email }}</p>
+    </div>
+    <button class="edit-profile-btn" onclick="showSection('edit-profile')">EDIT PROFILE</button>
+</div> -->
+<div class="profile-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul>
+            <li onclick="showSection('orders')">🧾 Orders</li>
+            <li onclick="showSection('wishlist')">💖 Wishlist</li>
+            <li onclick="showSection('edit-profile')">👤 Edit Profile</li>
+            <li onclick="showSection('addresses')">🏠 Addresses</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="profile-content">
+
+        <!-- Orders Section -->
+        <div id="orders" class="profile-section">
+            <h2>Past Orders</h2>
+            
+            {% for order in orders %}
+            <div class="order-card">
+
+                <div class="order-items">
+                    <p class="order-id">ORDER ID #{{ order.id }}</p>
+                    <hr class="order-divider">
+                    {% for item in order.items.all %}
+                    <div class="order-item">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="order-image"
+                            onerror="this.onerror=null; this.src='/static/images/default-product.png';">
+                        <div class="order-info">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>{{ item.product.description }}</p>
+                            <p>Qty: {{ item.quantity }}</p>
+                            <p>Price: {{ item.product.price }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Total and buttons -->
+                <div class="order-footer">
+                    <p><strong>Total Paid: ₹{{ order.total_price }}</strong></p>
+                    <div class="order-actions">
+                        <button class="reorder-btn">Reorder</button>
+                        <button class="help-btn">Help</button>
+                    </div>
+                </div>
+
+            </div>
+            {% empty %}
+            <p>No past orders found.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Wishlist Section -->
+        <div id="wishlist" class="profile-section hidden">
+            <h2>Wishlist</h2>
+            {% for item in wishlist %}
+            <div class="wishlist-card">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                <div class="wishlist-info">
+                    <h3>{{ item.product.name }}</h3>
+                    <p>{{ item.product.description }}</p>
+                </div>
+                <button class="remove-btn">Remove</button>
+            </div>
+            {% empty %}
+            <p>Your wishlist is empty.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Edit Profile Section -->
+        <div id="edit-profile" class="profile-section hidden">
+            <h2>Edit Profile</h2>
+            <form method="post" action="{% url 'app1:edit_profile' %}">
+                {% csrf_token %}
+                <label>Username:</label>
+                <input type="text" name="username" value="{{ user.username }}" required>
+
+                <label>Email:</label>
+                <input type="email" name="email" value="{{ user.email }}" required>
+
+                <hr style="margin: 20px 0;">
+
+                <label>Current Password:</label>
+                <input type="password" name="current_password" placeholder="Enter current password" required>
+
+                <label>New Password:</label>
+                <input type="password" name="new_password" placeholder="Enter new password">
+
+                <label>Confirm New Password:</label>
+                <input type="password" name="confirm_new_password" placeholder="Re-enter new password">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+        <!-- Address Section -->
+        <div id="addresses" class="profile-section hidden">
+            <h2>My Addresses</h2>
+            <button onclick="showAddressForm()">Add Address</button>
+            <div id="address-form-container" class="hidden"></div>  <!-- Form appears here -->
+
+            {% for address in addresses %}
+                <div class="address-card">
+                    <p><strong>{{ address.full_name }}</strong></p>
+                    <p>{{ address.street }}, {{ address.city }}, {{ address.state }} - {{ address.postal_code }}</p>
+                    <p>{{ address.country }}</p>
+                    <p>Phone: {{ address.phone }}</p>
+
+                    <!-- Edit Button -->
+                    <button onclick="editAddress('{{ address.id }}')">Edit</button>
+
+                    <!-- 🗑️ Delete Form -->
+                    <form action="{% url 'app1:delete_address' address.id %}" method="POST" class="delete-address-form">
+                        {% csrf_token %}
+                        <div class="delete-address-form">
+                            <div class="btn-group">
+                              <button type="button" onclick="showConfirm(this)">Delete 🗑️</button>
+                          
+                              <div class="confirm-group hidden">
+                                <span>Are you sure?</span>
+                                <button type="submit">Yes</button>
+                                <button type="button" onclick="cancelConfirm(this)">No</button>
+                              </div>
+                            </div>
+                        </div>                          
+                    </form>
+                </div>
+            {% empty %}
+                <p>You have not added any addresses yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% if messages %}
+    <div class="popup-messages">
+        {% for message in messages %}
+            <div class="popup-message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/profile.js' %}" defer></script>
+{% endblock %}

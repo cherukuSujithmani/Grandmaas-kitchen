@@ -1,0 +1,129 @@
+/* Wishlist Container */
+.wishlist-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.wishlist-container h2 {
+    font-size: 30px;
+    text-align: center;
+    color: #d2691e;
+    margin-bottom: 30px;
+}
+
+/* Grid Layout */
+#wishlist-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Wishlist Item Card */
+.wishlist-item {
+    background-color: #fff;
+    border: 1px solid #ffd699;
+    border-radius: 12px;
+    width: 260px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(255, 174, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.wishlist-item:hover {
+    transform: translateY(-4px);
+}
+
+/* Product Image */
+.wishlist-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ffa94d;
+    margin-bottom: 14px;
+}
+
+/* Product Details */
+.wishlist-details {
+    width: 100%;
+    text-align: center;
+}
+
+.wishlist-details h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.wishlist-details p {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 14px;
+}
+
+/* Buttons Container */
+.wishlist-details form,
+.wishlist-details .remove-btn {
+    display: inline-block;
+    margin: 5px 6px;
+}
+
+/* Add to Cart Button */
+.wishlist-cart-btn {
+    background-color: #ffa94d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wishlist-cart-btn:hover {
+    background-color: #ff7f11;
+}
+
+/* Remove Button */
+.remove-btn {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+    background-color: #c62828;
+}
+
+/* Empty Message */
+#wishlist-items p {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wishlist-item {
+        width: 100%;
+        max-width: 90%;
+    }
+}

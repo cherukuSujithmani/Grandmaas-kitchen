@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Admin Dashboard</h1>
+<hr>
+<div style="display: flex; gap: 2rem;">
+    <div><strong>Total Orders:</strong> {{ total_orders }}</div>
+    <div><strong>Total Revenue:</strong> ₹{{ total_revenue }}</div>
+    <div><strong>Total Products:</strong> {{ total_products }}</div>
+</div>
+
+<h2 style="margin-top: 2rem;">Top Selling Products</h2>
+<ul>
+    {% for product in top_products %}
+        <li>{{ product.product__name }} - {{ product.total_sold }} sold</li>
+    {% endfor %}
+</ul>
+{% endblock %}

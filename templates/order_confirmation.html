@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/order_confirmation.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="order-confirmation">
+    <h2>🎉 Order Placed Successfully! 🎉</h2>
+    <p>Thank you for your order, <strong>{{ request.user.username }}</strong>! Your order details are below:</p>
+
+    <div class="order-details">
+        <h3>Order Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>  <!-- Display product name -->
+                    <td>{{ item.quantity }}</td>  <!-- Display quantity -->
+                    <td>₹{{ item.price }}</td>  <!-- Display price per item -->
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No items found for this order.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Total Amount: ₹{{ order.total_price }}</h3>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'app1:home1' %}" class="btn">🏠 Back to Home</a>
+        <a href="{% url 'app1:sweets' %}" class="btn">🛒 Continue Shopping</a>
+    </div>
+</div>
+
+<!-- Popup Message -->
+<div id="order-popup" class="popup">
+    <div class="popup-content">
+        <h2>🎉 Order Successful! 🎉</h2>
+        <p>Your order has been placed successfully. Check your email for details.</p>
+        <button id="close-popup">OK</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/order_confirmation.js' %}"></script>
+{% endblock %}
