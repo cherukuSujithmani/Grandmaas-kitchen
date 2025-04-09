@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/pickles.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="pickles-container">
+        <h2 class="page-title">Pickles</h2>
+        <!-- Filter Section -->
+        <div class="filters">
+            <a href="?filter=veg">Veg</a> |
+            <a href="?filter=nonveg">Non-Veg</a> |
+            <a href="?filter=lowtohigh">Price: Low to High</a>
+        </div>
+        <!-- Filter Section -->
+        <!-- <div class="filters">
+            <button onclick="filterProducts('veg')" class="filter-btn">Veg</button>
+            <button onclick="filterProducts('nonveg')" class="filter-btn">Non-Veg</button>
+            <button onclick="filterProducts('lowtohigh')" class="filter-btn">Price: Low to High</button>
+        </div> -->
+
+        <!-- Product Listing -->
+        <div class="product-container">
+            {% if products %}
+                {% for product in products %}
+                    <div class="product-card" data-category="{{ product.category }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+                        <p class="price">₹{{ product.price }}</p>
+                        <form action="{% url 'app1:add_to_cart' product.id %}" method="post" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn add-to-cart">Add to Cart</button><br><br>
+                        </form>
+                        <button class="wishlist-btn" data-product-id="{{ product.id }}">Add to Wishlist ❤️</button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-products">No products available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Pop-up Message -->
+    <div id="popup-message" class="popup hidden">Product added to cart! 🛒</div>
+    <div id="wishlist-popup" class="wishlist-popup">Item added to wishlist! ❤️</div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/pickles.js' %}" defer></script>
+{% endblock %}

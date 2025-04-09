@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/reg.css' %}">
+    <script defer src="{% static 'js/reg.js' %}"></script>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Register</h2>
+        <form method="post" id="register-form">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="id_username">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="input-group">
+                <label for="id_first_name">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="input-group">
+                <label for="id_last_name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            <div class="input-group">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="input-group">
+                <label for="id_phone">Phone</label>
+                {{ form.phone }}
+            </div>
+            <div class="input-group">
+                <label for="id_address">Address</label>
+                {{ form.address }}
+            </div>
+            <div class="input-group">
+                <label for="id_password">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="register-btn">Register</button>
+            <p class="login-link">Already have an account? <a href="{% url 'app1:login' %}">Login</a></p>
+        </form>
+    </div>
+
+</body>
+</html>

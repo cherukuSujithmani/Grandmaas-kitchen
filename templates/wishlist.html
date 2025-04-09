@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wishlist-container">
+    <h2>Your Wishlist</h2>
+
+    <div id="wishlist-items">
+        {% if wishlist_items %}
+            {% for item in wishlist_items %}
+                <div class="wishlist-item">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                    <div class="wishlist-details">
+                        <h3>{{ item.product.name }}</h3>
+                        <p>Price: ₹{{ item.product.price }}</p>
+
+                        <!-- ✅ Add to Cart Form -->
+                        <form method="POST" action="{% url 'app1:add_to_cart' item.product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="wishlist-cart-btn">Add to Cart</button>
+                        </form>
+
+                        <!-- 🗑️ Remove Button -->
+                        <button class="remove-btn" data-product-id="{{ item.product.id }}">Remove</button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Your wishlist is empty!</p>
+        {% endif %}
+    </div>
+</div>
+
+<script src="{% static 'js/wishlist.js' %}"></script>
+{% endblock %}

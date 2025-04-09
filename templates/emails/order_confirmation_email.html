@@ -1,0 +1,31 @@
+<!-- templates/email/order_confirmation_email.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+    <h2>Hi {{ user.username }},</h2>
+    <p>Thank you for your order!</p>
+
+    <p><strong>Order ID:</strong> {{ order.id }}<br>
+    <strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+
+    <h4>Items Ordered:</h4>
+    <ul>
+        {% for item in order_items %}
+            <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.price }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+
+    <p><strong>Delivery Address:</strong><br>
+    {{ order.address|linebreaks }}</p>
+
+    <p>We’ll let you know once your order has shipped!</p>
+
+    <p>– Grandma's Kitchen 🍪</p>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-wrapper">
+    <h2>Secure Checkout</h2>
+
+    <form method="post" action="{% url 'app1:checkout' %}" id="checkout-form">
+        {% csrf_token %}
+
+        <!-- Delivery Address -->
+        <div class="section">
+            <h3><i class="fa fa-truck"></i> Delivery Address</h3>
+
+            {% if addresses %}
+            <div class="saved-addresses">
+                {% for addr in addresses %}
+                <label class="address-option">
+                    <input type="radio" name="selected_address" value="{{ addr.id }}" required>
+                    {{ addr.full_name }}, {{ addr.street }}, {{ addr.city }}, {{ addr.state }} - {{ addr.postal_code }}, {{ addr.country }}
+                </label>
+                {% endfor %}
+            </div>
+            <hr>
+            {% endif %}
+
+            <p><strong>Or Add a New Address</strong></p>
+            <div class="address-form">
+                <input type="text" name="full_name" placeholder="Full Name">
+                <input type="text" name="street" placeholder="Street">
+                <input type="text" name="city" placeholder="City">
+                <input type="text" name="state" placeholder="State">
+                <input type="text" name="postal_code" placeholder="Postal Code">
+                <input type="text" name="country" placeholder="Country">
+                <input type="text" name="phone" placeholder="Phone Number">
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="section">
+            <h3><i class="fa fa-credit-card"></i> Payment Method</h3>
+
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="Card" required>
+                Credit Card
+            </label>
+            <div class="card-details">
+                <input type="text" name="card_number" placeholder="Card Number">
+                <input type="text" name="expiry_date" placeholder="Expiry Date (MM/YY)">
+                <input type="text" name="cvv" placeholder="CVV">
+                <input type="text" name="card_name" placeholder="Name on Card">
+            </div>
+
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="PayPal">
+                PayPal
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="COD">
+                Cash on Delivery
+            </label>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="section">
+            <h3><i class="fa fa-list"></i> Order Summary</h3>
+            <div class="summary">
+                {% if cart_items %}
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr class="summary-line">
+                            <td colspan="2"><strong>Subtotal:</strong></td>
+                            <td><strong>₹{{ total_price }}</strong></td>
+                        </tr>
+                        <tr class="summary-line">
+                            <td colspan="2">Delivery Fee:</td>
+                            <td>Free</td>
+                        </tr>
+                        <tr class="summary-line total">
+                            <td colspan="2"><strong>Total:</strong></td>
+                            <td><strong>₹{{ total_price }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% else %}
+                <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn-confirm">Place Secure Order</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}
